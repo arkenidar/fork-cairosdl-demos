@@ -380,7 +380,6 @@ on_expose (struct bob *bobs, size_t num_bobs)
     SDL_Flip (screen);
 
     push_expose ();             /* Schedule another expose soon, */
-    SDL_Delay (1);              /* but don't hog the cpu. */
 }
 
 static void
