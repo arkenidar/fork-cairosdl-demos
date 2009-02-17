@@ -381,6 +381,7 @@ event_loop (unsigned flags, int width, int height)
             if (status != CAIRO_STATUS_SUCCESS) {
                 fprintf (stderr, "Failed to render: %s\n",
                          cairo_status_to_string (status));
+                exit (1);
             }
 
             push_expose ();             /* Schedule another expose soon, */
