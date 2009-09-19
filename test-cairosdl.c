@@ -23,8 +23,8 @@ sdl_surface_eq(SDL_Surface *a, SDL_Surface *b)
     check_field(h);
 
     {
-        unsigned char *a_bytes = a->pixels;
-        unsigned char *b_bytes = b->pixels;
+        unsigned char *a_bytes = (unsigned char*)(a->pixels);
+        unsigned char *b_bytes = (unsigned char*)(b->pixels);
         size_t row_size = a->format->BytesPerPixel * a->w;
         int i;
         for (i=0; i<a->h; i++) {
@@ -47,8 +47,8 @@ dup_sdl_surface(SDL_Surface *a)
                                           a->format->Gmask,
                                           a->format->Bmask,
                                           a->format->Amask);
-    unsigned char *b_bytes = b->pixels;
-    unsigned char *a_bytes = a->pixels;
+    unsigned char *b_bytes = (unsigned char*)(b->pixels);
+    unsigned char *a_bytes = (unsigned char*)(a->pixels);
     size_t row_size = a->format->BytesPerPixel * a->w;
     int i;
     assert(! SDL_MUSTLOCK(a) );
