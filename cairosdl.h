@@ -27,6 +27,10 @@
 #include <cairo.h>
 #include <SDL.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* All cairo and cairosdl functions expect the underlying SDL_Surface
  * to be locked or not need locking.  The underlying condition is that
  * the ->pixels member of the SDL_Surface should be valid and not
@@ -109,4 +113,7 @@ cairosdl_destroy (cairo_t *cr);
 #define CAIROSDL_GMASK (255U << CAIROSDL_GSHIFT)
 #define CAIROSDL_BMASK (255U << CAIROSDL_BSHIFT)
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* CAIROSDL_H */

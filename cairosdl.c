@@ -26,6 +26,10 @@
 #include <assert.h>
 #include "cairosdl.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* forward references */
 static void
 _cairosdl_blit_and_unpremultiply (
@@ -50,8 +54,9 @@ _cairosdl_blit_and_premultiply (
  */
 
 /* We're hanging the SDL_Surface as a user datum on the
- * cairo_surface_t representing it using this key.  */
-static cairo_user_data_key_t const CAIROSDL_TARGET_KEY[1];
+ * cairo_surface_t representing it using this key.  Turns out we need
+ * to initialise it for C++. */
+static cairo_user_data_key_t const CAIROSDL_TARGET_KEY[1] = {{1}};
 
 static void
 sdl_surface_destroy_func (void *param)
@@ -104,7 +109,8 @@ cairosdl_surface_create (
          *
          * However, it turns out malloc is actually safe on many (all?)
          * platforms so we'll just go ahead anyway. */
-        target = cairo_image_surface_create_for_data (sdl_surface->pixels,
+        unsigned char *data = (unsigned char*)(sdl_surface->pixels);
+        target = cairo_image_surface_create_for_data (data,
                                                       format,
                                                       sdl_surface->w,
                                                       sdl_surface->h,
@@ -143,7 +149,8 @@ SDL_Surface *
 cairosdl_surface_get_target (
     cairo_surface_t *surface)
 {
-    return cairo_surface_get_user_data (surface, CAIROSDL_TARGET_KEY);
+    void *udata = cairo_surface_get_user_data (surface, CAIROSDL_TARGET_KEY);
+    return (SDL_Surface*)(udata);
 }
 
 static cairo_status_t
@@ -159,7 +166,7 @@ _cairosdl_surface_obtain_SDL_buffer(
         return CAIRO_STATUS_NULL_POINTER;
 
     if (OUT_buffer)
-        *OUT_buffer = sdl_surface->pixels;
+        *OUT_buffer = (unsigned char *)(sdl_surface->pixels);
     if (OUT_stride)
         *OUT_stride = sdl_surface->pitch;
     if (OUT_width)
@@ -687,3 +694,7 @@ _cairosdl_blit_and_premultiply (
         source_bytes += source_stride;
     }
 }
+
+#ifdef __cplusplus
+}
+#endif
