@@ -1,0 +1,37 @@
+cd ~
+
+# clone
+git clone git://people.freedesktop.org/~joonas/cairosdl
+cd ~/cairosdl/ && ls
+nano README
+
+# clone "demos" branch
+git clone git://people.freedesktop.org/~joonas/cairosdl --branch demos cairosdl-demos
+cd ~/cairosdl-demos/ && ls
+nano README
+
+# execute "Makefile"
+make
+
+# fix missing libraries
+sudo apt install libcairo-dev
+make
+
+# fix missing libraries
+sudo apt-get install libglib2.0-dev
+make
+
+# additional fixes
+nano Makefile
+make clean && make # remake
+
+# executable binary files
+cd bin && ls # enter dir
+./sdl-clock # the best demos so far
+./fuzzy-balls
+./gears
+./test-cairosdl
+cd.. # exit dir
+
+# remove binaries (binary files)
+make clean

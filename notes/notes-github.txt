@@ -1,0 +1,9 @@
+cd ~/cairosdl-demos/ && git remote add origin-gh git@github.com:arkenidar/fork-cairosdl-demos.git
+git branch -M demos
+git push -u origin-gh demos
+
+## (GitHub new repository setup instructions)
+## …or push an existing repository from the command line
+git remote add origin git@github.com:arkenidar/fork-cairosdl-demos.git
+git branch -M main
+git push -u origin main
